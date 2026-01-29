@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Src/" />
+  <Folder Name="/Src/Core/" />
+  <Folder Name="/Src/Hosts/">
+    <Project Path="src/Dev.WooAI.AppHost/Dev.WooAI.AppHost.csproj" Id="9d810d19-0746-4562-b87e-9226a53a0e70" />
+    <Project Path="src/Dev.wooAI.HttpApi/Dev.WooAI.HttpApi.csproj" />
+    <Project Path="src/Dev.WooAI.MigrationsDbWorkerService/Dev.WooAI.MigrationsDbWorkerService.csproj" Id="c5e7c3e6-857e-49e1-9eb2-5eca4fe4a472" />
+    <Project Path="src/Dev.WooAI.ServiceDefaults/Dev.WooAI.ServiceDefaults.csproj" Id="e0fcccb4-ecea-442f-bb53-9b14b2423786" />
+  </Folder>
+  <Folder Name="/Src/Infrastructure/">
+    <Project Path="src/Dev.WooAI.EntityFreworkCore/Dev.WooAI.EntityFreworkCore.csproj" Id="1db5f8d4-49d4-4ac1-8703-e8d5f8a225af" />
+  </Folder>
+  <Folder Name="/Src/Services/">
+    <Project Path="src/Dev.WooAI.IdentityService/Dev.WooAI.IdentityService.csproj" Id="d0499a8f-dec0-4248-b6cb-fc0134a570da" />
+  </Folder>
+  <Folder Name="/Src/Shared/">
+    <Project Path="src/Dev.WooAI.SharedKernel/Dev.WooAI.SharedKernel.csproj" Id="73a6d611-ff23-4d3c-98c4-cd9ef682d610" />
+  </Folder>
+</Solution>

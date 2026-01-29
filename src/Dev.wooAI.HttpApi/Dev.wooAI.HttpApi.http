@@ -1,0 +1,6 @@
+@Dev.wooAI.HttpApi_HostAddress = http://localhost:5249
+
+GET {{Dev.wooAI.HttpApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
