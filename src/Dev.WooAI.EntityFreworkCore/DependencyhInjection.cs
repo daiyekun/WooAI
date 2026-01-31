@@ -4,24 +4,21 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Hosting;
+
 
 namespace Dev.WooAI.EntityFreworkCore;
 
 public static class DependencyhInjection
 {
-    public static IServiceCollection AddInfrastructres(this IServiceCollection services,IConfiguration configuration)
+    public static void AddEfCore(this IHostApplicationBuilder builder)
     {
-        ConfigureIdentity(services);
-        return services;
-    }
+        builder.AddNpgsqlDbContext<WooAiDbContext>("dev-wooai");
 
-    
-    private static void ConfigureIdentity(IServiceCollection services)
-    {
-        services.AddIdentityCore<IdentityUser>(options =>
+        builder.Services.AddIdentityCore<IdentityUser>(options =>
         {
-            options.Password.RequiredLength = 8;
             options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 8;
         })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<WooAiDbContext>();

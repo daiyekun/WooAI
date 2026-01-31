@@ -7,14 +7,12 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="10.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Dev.WooAI.Services.Common\Dev.WooAI.Services.Common.csproj" />
+	  <ProjectReference Include="..\Dev.WooAI.EntityFreworkCore\Dev.WooAI.EntityFreworkCore.csproj" />
 	  <ProjectReference Include="..\Dev.WooAI.Services.Contracts\Dev.WooAI.Services.Contracts.csproj" />
-	  <ProjectReference Include="..\Dev.WooAI.SharedKernel\Dev.WooAI.SharedKernel.csproj" />
 	</ItemGroup>
 
 </Project>

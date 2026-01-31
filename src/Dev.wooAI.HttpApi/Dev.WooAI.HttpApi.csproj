@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dev.WooAI.EntityFreworkCore\Dev.WooAI.EntityFreworkCore.csproj" />
     <ProjectReference Include="..\Dev.WooAI.IdentityService\Dev.WooAI.IdentityService.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.Infrastructure\Dev.WooAI.Infrastructure.csproj" />
     <ProjectReference Include="..\Dev.WooAI.ServiceDefaults\Dev.WooAI.ServiceDefaults.csproj" />
   </ItemGroup>
 

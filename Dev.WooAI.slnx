@@ -9,9 +9,12 @@
   </Folder>
   <Folder Name="/Src/Infrastructure/">
     <Project Path="src/Dev.WooAI.EntityFreworkCore/Dev.WooAI.EntityFreworkCore.csproj" Id="1db5f8d4-49d4-4ac1-8703-e8d5f8a225af" />
+    <Project Path="src/Dev.WooAI.Infrastructure/Dev.WooAI.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/Src/Services/">
     <Project Path="src/Dev.WooAI.IdentityService/Dev.WooAI.IdentityService.csproj" Id="d0499a8f-dec0-4248-b6cb-fc0134a570da" />
+    <Project Path="src/Dev.WooAI.Services.Common/Dev.WooAI.Services.Common.csproj" Id="2a938176-9fda-40ec-909e-5f5440ffb23c" />
+    <Project Path="src/Dev.WooAI.Services.Contracts/Dev.WooAI.Services.Contracts.csproj" Id="0d821b51-7b52-4264-84f0-f6fd6aa2431a" />
   </Folder>
   <Folder Name="/Src/Shared/">
     <Project Path="src/Dev.WooAI.SharedKernel/Dev.WooAI.SharedKernel.csproj" Id="73a6d611-ff23-4d3c-98c4-cd9ef682d610" />

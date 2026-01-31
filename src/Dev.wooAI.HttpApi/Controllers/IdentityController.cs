@@ -3,7 +3,7 @@ using Dev.WooAI.HttpApi.Infrastructure;
 using Dev.WooAI.HttpApi.Models;
 using Dev.WooAI.IdentityService.Commands;
 
-namespace Zilor.AICopilot.HttpApi.Controllers;
+namespace Dev.WooAI.HttpApi.Controllers;
 
 [Route("/api/identity")]
 public class IdentityController : ApiControllerBase
