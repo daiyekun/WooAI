@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dev.WooAI.AiGatewayService\Dev.WooAI.AiGatewayService.csproj" />
     <ProjectReference Include="..\Dev.WooAI.EntityFreworkCore\Dev.WooAI.EntityFreworkCore.csproj" />
     <ProjectReference Include="..\Dev.WooAI.IdentityService\Dev.WooAI.IdentityService.csproj" />
     <ProjectReference Include="..\Dev.WooAI.Infrastructure\Dev.WooAI.Infrastructure.csproj" />

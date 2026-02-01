@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dev.WooAI.Core.AiGateway\Dev.WooAI.Core.AiGateway.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.Services.Common\Dev.WooAI.Services.Common.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.Services.Contracts\Dev.WooAI.Services.Contracts.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.SharedKernel\Dev.WooAI.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

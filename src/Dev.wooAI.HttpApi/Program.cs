@@ -29,6 +29,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseExceptionHandler();
+
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();

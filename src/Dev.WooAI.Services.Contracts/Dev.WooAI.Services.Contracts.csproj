@@ -10,4 +10,8 @@
 		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="10.0.2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Dev.WooAI.Core.AiGateway\Dev.WooAI.Core.AiGateway.csproj" />
+	</ItemGroup>
+
 </Project>

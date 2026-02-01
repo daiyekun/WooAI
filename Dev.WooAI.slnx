@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Src/" />
-  <Folder Name="/Src/Core/" />
+  <Folder Name="/Src/Core/">
+    <Project Path="src/Dev.WooAI.Core.AiGateway/Dev.WooAI.Core.AiGateway.csproj" Id="f490a479-d61b-4c58-b732-d2dd9ff064e4" />
+  </Folder>
   <Folder Name="/Src/Hosts/">
     <Project Path="src/Dev.WooAI.AppHost/Dev.WooAI.AppHost.csproj" Id="9d810d19-0746-4562-b87e-9226a53a0e70" />
     <Project Path="src/Dev.wooAI.HttpApi/Dev.WooAI.HttpApi.csproj" />
@@ -12,6 +14,7 @@
     <Project Path="src/Dev.WooAI.Infrastructure/Dev.WooAI.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/Src/Services/">
+    <Project Path="src/Dev.WooAI.AiGatewayService/Dev.WooAI.AiGatewayService.csproj" Id="939f2f4b-e866-4a3c-a38b-f05e627a2fbc" />
     <Project Path="src/Dev.WooAI.IdentityService/Dev.WooAI.IdentityService.csproj" Id="d0499a8f-dec0-4248-b6cb-fc0134a570da" />
     <Project Path="src/Dev.WooAI.Services.Common/Dev.WooAI.Services.Common.csproj" Id="2a938176-9fda-40ec-909e-5f5440ffb23c" />
     <Project Path="src/Dev.WooAI.Services.Contracts/Dev.WooAI.Services.Contracts.csproj" Id="0d821b51-7b52-4264-84f0-f6fd6aa2431a" />
