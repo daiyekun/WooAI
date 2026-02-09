@@ -1,6 +1,6 @@
 ﻿using Dev.WooAI.Core.AiGateway.Aggregates.Sessions;
 using Dev.WooAI.Services.Common.Attributes;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.Services.Common.Contracts;
 using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Repository;
 using Dev.WooAI.SharedKernel.Result;

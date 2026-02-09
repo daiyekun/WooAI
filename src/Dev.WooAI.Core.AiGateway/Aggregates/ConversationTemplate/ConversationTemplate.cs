@@ -10,7 +10,9 @@ public class ConversationTemplate : IAggregateRoot
     public string Description { get; set; }
     
     public string SystemPrompt { get; set; }
-    
+
+    public Guid ModelId { get; set; }
+
     public TemplateSpecification Specification { get; set; }
     
     public bool IsEnabled { get; set; }
@@ -21,6 +23,7 @@ public class ConversationTemplate : IAggregateRoot
         string name,
         string description,
         string systemPrompt,
+          Guid modelId,
         TemplateSpecification specification)
     {
         Id = Guid.NewGuid();
@@ -29,6 +32,7 @@ public class ConversationTemplate : IAggregateRoot
         SystemPrompt = systemPrompt;
         Specification = specification;
         IsEnabled = true;
+        ModelId= modelId;
     }
 
 

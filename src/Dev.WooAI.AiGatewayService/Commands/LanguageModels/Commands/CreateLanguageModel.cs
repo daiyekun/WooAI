@@ -4,7 +4,7 @@ using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Repository;
 using Dev.WooAI.SharedKernel.Result;
 
-namespace Dev.WooAI.AiGatewayService.LanguageModels.Commands;
+namespace Dev.WooAI.AiGatewayService.Commands.LanguageModels.Commands;
 
 public record CreatedLanguageModelDto(Guid Id, string Provider, string Name);
 
@@ -15,7 +15,7 @@ public record CreateLanguageModelCommand(
     string BaseUrl, 
     string? ApiKey,
     int MaxTokens,
-    double Temperature = 0.7) : ICommand<Result<CreatedLanguageModelDto>>;
+    float Temperature = 0.7f) : ICommand<Result<CreatedLanguageModelDto>>;
     
 public class CreateLanguageModelCommandHandler(IRepository<LanguageModel> repo) 
     : ICommandHandler<CreateLanguageModelCommand, Result<CreatedLanguageModelDto>>

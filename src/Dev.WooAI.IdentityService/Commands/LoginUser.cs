@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Dev.WooAI.Services.Contracts;
 using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Result;
+using Dev.WooAI.IdentityService.Contracts;
 
 namespace Dev.WooAI.IdentityService.Commands;
 

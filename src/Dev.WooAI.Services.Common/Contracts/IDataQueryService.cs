@@ -2,7 +2,7 @@
 using Dev.WooAI.Core.AiGateway.Aggregates.LanguageModel;
 using Dev.WooAI.Core.AiGateway.Aggregates.Sessions;
 
-namespace Dev.WooAI.Services.Contracts;
+namespace Dev.WooAI.Services.Common.Contracts;
 
 public interface IDataQueryService
 {

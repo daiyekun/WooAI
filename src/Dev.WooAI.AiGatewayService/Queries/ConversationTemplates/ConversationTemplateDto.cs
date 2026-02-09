@@ -1,4 +1,4 @@
-﻿namespace Dev.WooAI.AiGatewayService.ConversationTemplates.Dtos;
+﻿namespace Dev.WooAI.AiGatewayService.Queries.ConversationTemplates;
 
 public record ConversationTemplateDto
 {

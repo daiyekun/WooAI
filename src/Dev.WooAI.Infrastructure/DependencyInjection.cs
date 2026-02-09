@@ -2,7 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Dev.WooAI.EntityFreworkCore;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.IdentityService.Contracts;
+
 
 namespace Dev.WooAI.Infrastructure;
 

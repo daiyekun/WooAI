@@ -1,7 +1,7 @@
 ﻿using Dev.WooAI.Services.Common.Attributes;
 using MediatR;
 using Dev.WooAI.Services.Common.Exceptions;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.Services.Common.Contracts;
 
 namespace Dev.WooAI.Services.Common.Behaviors;
 

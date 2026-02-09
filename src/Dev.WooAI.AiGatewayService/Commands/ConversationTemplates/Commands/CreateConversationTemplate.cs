@@ -4,7 +4,7 @@ using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Repository;
 using Dev.WooAI.SharedKernel.Result;
 
-namespace Dev.WooAI.AiGatewayService.ConversationTemplates.Commands;
+namespace Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
 
 public record CreatedConversationTemplateDto(Guid Id, string Name);
 
@@ -12,9 +12,10 @@ public record CreatedConversationTemplateDto(Guid Id, string Name);
 public record CreateConversationTemplateCommand(
     string Name, 
     string Description, 
-    string SystemPrompt, 
+    string SystemPrompt,
+    Guid ModelId,
     int? MaxTokens,
-    double? Temperature) : ICommand<Result<CreatedConversationTemplateDto>>;
+    float? Temperature) : ICommand<Result<CreatedConversationTemplateDto>>;
     
 public class CreateConversationTemplateCommandHandler(IRepository<ConversationTemplate> repo) 
     : ICommandHandler<CreateConversationTemplateCommand, Result<CreatedConversationTemplateDto>>
@@ -25,6 +26,7 @@ public class CreateConversationTemplateCommandHandler(IRepository<ConversationTe
             request.Name, 
             request.Description,
             request.SystemPrompt,
+            request.ModelId,
             new TemplateSpecification 
             {
                 MaxTokens = request.MaxTokens,

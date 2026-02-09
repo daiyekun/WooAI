@@ -4,7 +4,7 @@ using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Repository;
 using Dev.WooAI.SharedKernel.Result;
 
-namespace Dev.WooAI.AiGatewayService.LanguageModels.Commands;
+namespace Dev.WooAI.AiGatewayService.Commands.LanguageModels.Commands;
 
 [AuthorizeRequirement("AiGateway.DeleteLanguageModel")]
 public record DeleteLanguageModelCommand(Guid Id) : ICommand<Result>;

@@ -21,6 +21,8 @@ public class ConversationTemplateConfiguration : IEntityTypeConfiguration<Conver
             .HasMaxLength(200)
             .HasColumnName("name");
 
+        builder.HasIndex(a => a.Name).IsUnique();
+
         builder.Property(ct => ct.Description)
             .HasMaxLength(1000)
             .HasColumnName("description"); // 允许为空

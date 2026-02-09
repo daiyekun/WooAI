@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Dev.WooAI.AiGatewayService.ConversationTemplates.Commands;
-using Dev.WooAI.AiGatewayService.ConversationTemplates.Queries;
-using Dev.WooAI.AiGatewayService.LanguageModels.Commands;
-using Dev.WooAI.AiGatewayService.LanguageModels.Queries;
 using Dev.WooAI.AiGatewayService.Sessions.Commands;
 using Dev.WooAI.AiGatewayService.Sessions.Queries;
 using Dev.WooAI.HttpApi.Infrastructure;
+using Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
+using Dev.WooAI.AiGatewayService.Commands.LanguageModels.Commands;
+using Dev.WooAI.AiGatewayService.Queries.ConversationTemplates;
+using Dev.WooAI.AiGatewayService.Queries.LanguageModels;
 
 namespace Dev.WooAI.HttpApi.Controllers;
 

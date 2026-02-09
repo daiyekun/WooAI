@@ -2,7 +2,7 @@
 using Dev.WooAI.Core.AiGateway.Aggregates.LanguageModel;
 using Dev.WooAI.Core.AiGateway.Aggregates.Sessions;
 using Dev.WooAI.EntityFreworkCore;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.Services.Common.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dev.WooAI.EntityFrameworkCore;

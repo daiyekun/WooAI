@@ -1,10 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Dev.WooAI.IdentityService.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Dev.WooAI.Services.Contracts;
+
 
 namespace Dev.WooAI.Infrastructure.Authentication;
 

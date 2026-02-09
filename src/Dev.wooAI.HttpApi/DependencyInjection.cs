@@ -2,7 +2,7 @@
 using Dev.WooAI.IdentityService;
 using Dev.WooAI.Infrastructure.Authentication;
 using Dev.WooAI.Services.Common.Behaviors;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.Services.Common.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

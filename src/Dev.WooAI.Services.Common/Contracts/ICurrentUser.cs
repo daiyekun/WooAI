@@ -1,4 +1,4 @@
-﻿namespace Dev.WooAI.Services.Contracts;
+﻿namespace Dev.WooAI.Services.Common.Contracts;
 
 public interface ICurrentUser
 {

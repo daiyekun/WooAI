@@ -12,7 +12,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Dev.WooAI.EntityFreworkCore\Dev.WooAI.EntityFreworkCore.csproj" />
-	  <ProjectReference Include="..\Dev.WooAI.Services.Contracts\Dev.WooAI.Services.Contracts.csproj" />
+	  <ProjectReference Include="..\Dev.WooAI.IdentityService\Dev.WooAI.IdentityService.csproj" />
 	</ItemGroup>
 
 </Project>

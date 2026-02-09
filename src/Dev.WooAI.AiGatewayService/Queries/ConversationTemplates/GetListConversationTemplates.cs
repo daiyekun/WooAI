@@ -1,11 +1,10 @@
-﻿using Dev.WooAI.AiGatewayService.ConversationTemplates.Dtos;
-using Dev.WooAI.AiGatewayService.LanguageModels.Queries;
+﻿
 using Dev.WooAI.Services.Common.Attributes;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.Services.Common.Contracts;
 using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Result;
 
-namespace Dev.WooAI.AiGatewayService.ConversationTemplates.Queries;
+namespace Dev.WooAI.AiGatewayService.Queries.ConversationTemplates;
 
 [AuthorizeRequirement("AiGateway.GetListConversationTemplates")]
 public record GetListConversationTemplatesQuery : IQuery<Result<IList<ConversationTemplateDto>>>;

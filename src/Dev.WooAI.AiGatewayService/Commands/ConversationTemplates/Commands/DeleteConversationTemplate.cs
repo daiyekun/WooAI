@@ -4,7 +4,7 @@ using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Repository;
 using Dev.WooAI.SharedKernel.Result;
 
-namespace Dev.WooAI.AiGatewayService.ConversationTemplates.Commands;
+namespace Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
 
 [AuthorizeRequirement("AiGateway.DeleteConversationTemplate")]
 public record DeleteConversationTemplateCommand(Guid Id) : ICommand<Result>;

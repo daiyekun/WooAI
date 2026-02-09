@@ -8,7 +8,8 @@ using System.Text;
 using Dev.WooAI.EntityFrameworkCore;
 using Dev.WooAI.EntityFrameworkCore.Repository;
 using Dev.WooAI.SharedKernel.Repository;
-using Dev.WooAI.Services.Contracts;
+using Dev.WooAI.Services.Common.Contracts;
+
 
 
 namespace Dev.WooAI.EntityFreworkCore;
