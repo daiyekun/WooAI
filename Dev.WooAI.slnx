@@ -19,6 +19,7 @@
     <Project Path="src/Dev.WooAI.Services.Common/Dev.WooAI.Services.Common.csproj" Id="2a938176-9fda-40ec-909e-5f5440ffb23c" />
   </Folder>
   <Folder Name="/Src/Shared/">
+    <Project Path="src/Dev.WooAI.AgentPlugin/Dev.WooAI.AgentPlugin.csproj" Id="033467ce-fa2c-4b15-952d-10e8cf25dc7f" />
     <Project Path="src/Dev.WooAI.SharedKernel/Dev.WooAI.SharedKernel.csproj" Id="73a6d611-ff23-4d3c-98c4-cd9ef682d610" />
   </Folder>
 </Solution>
