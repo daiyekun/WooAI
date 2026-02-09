@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Dev.WooAI.AiGatewayService.Sessions.Commands;
-using Dev.WooAI.AiGatewayService.Sessions.Queries;
-using Dev.WooAI.HttpApi.Infrastructure;
-using Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
+﻿using Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
 using Dev.WooAI.AiGatewayService.Commands.LanguageModels.Commands;
 using Dev.WooAI.AiGatewayService.Queries.ConversationTemplates;
 using Dev.WooAI.AiGatewayService.Queries.LanguageModels;
+using Dev.WooAI.AiGatewayService.Sessions.Commands;
+using Dev.WooAI.AiGatewayService.Sessions.Queries;
+using Dev.WooAI.HttpApi.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Dev.WooAI.HttpApi.Controllers;
 
@@ -82,5 +83,29 @@ public class AiGatewayController : ApiControllerBase
     {
         var result = await Sender.Send(new GetListSessionsQuery());
         return ReturnResult(result);
+    }
+
+    [HttpPost("session/SendUserMessages")]
+    public async Task SendUserMessages(SendUserMessageCommand command)
+    {
+        var stream = await Sender.Send(command);
+
+        Response.StatusCode = 200;
+        Response.ContentType = "text/event-stream";
+        Response.Headers.CacheControl = "no-cache";
+        Response.Headers.Connection = "keep-alive";
+
+        await foreach (var token in stream)
+        {
+            var chunk = new
+            {
+                content = token
+            };
+
+            var json = JsonSerializer.Serialize(chunk);
+
+            await Response.WriteAsync($"data: {json}\n\n");
+            await Response.Body.FlushAsync();
+        }
     }
 }

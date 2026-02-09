@@ -39,6 +39,10 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_enabled");
 
+                    b.Property<Guid>("ModelId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("model_id");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -51,6 +55,9 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                         .HasColumnName("system_prompt");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("conversation_templates", (string)null);
                 });
@@ -86,6 +93,9 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                         .HasColumnName("provider");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name", "Provider")
+                        .IsUnique();
 
                     b.ToTable("language_models", (string)null);
                 });
@@ -361,8 +371,8 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("max_tokens");
 
-                            b1.Property<double?>("Temperature")
-                                .HasColumnType("double precision")
+                            b1.Property<float?>("Temperature")
+                                .HasColumnType("real")
                                 .HasColumnName("temperature");
 
                             b1.HasKey("ConversationTemplateId");
@@ -388,8 +398,8 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("max_tokens");
 
-                            b1.Property<double>("Temperature")
-                                .HasColumnType("double precision")
+                            b1.Property<float>("Temperature")
+                                .HasColumnType("real")
                                 .HasColumnName("temperature");
 
                             b1.HasKey("LanguageModelId");

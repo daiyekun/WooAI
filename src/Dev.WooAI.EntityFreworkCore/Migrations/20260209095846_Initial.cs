@@ -59,8 +59,9 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                     name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     system_prompt = table.Column<string>(type: "text", nullable: false),
+                    model_id = table.Column<Guid>(type: "uuid", nullable: false),
                     max_tokens = table.Column<int>(type: "integer", nullable: true),
-                    temperature = table.Column<double>(type: "double precision", nullable: true),
+                    temperature = table.Column<float>(type: "real", nullable: true),
                     is_enabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -78,7 +79,7 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                     base_url = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     api_key = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     max_tokens = table.Column<int>(type: "integer", nullable: false),
-                    temperature = table.Column<double>(type: "double precision", nullable: false)
+                    temperature = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,6 +263,18 @@ namespace Dev.WooAI.EntityFreworkCore.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_conversation_templates_name",
+                table: "conversation_templates",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_language_models_name_provider",
+                table: "language_models",
+                columns: new[] { "name", "provider" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

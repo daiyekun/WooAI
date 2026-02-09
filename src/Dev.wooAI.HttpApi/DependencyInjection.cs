@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
+using Dev.WooAI.AiGatewayService;
 
 namespace Dev.WooAI.HttpApi;
 
@@ -24,6 +25,8 @@ public static class DependencyInjection
                 cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(IdentityService.DependencyInjection))!);
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             });
+
+            builder.AddAiGatewayService();
         }
 
         public void AddWebService()

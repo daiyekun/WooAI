@@ -29,7 +29,11 @@ public class ConversationTemplateConfiguration : IEntityTypeConfiguration<Conver
 
         builder.Property(ct => ct.SystemPrompt)
             .IsRequired()
-            .HasColumnName("system_prompt"); 
+            .HasColumnName("system_prompt");
+
+        builder.Property(ct => ct.ModelId)
+          .IsRequired()
+          .HasColumnName("model_id");
 
         builder.Property(ct => ct.IsEnabled)
             .IsRequired()

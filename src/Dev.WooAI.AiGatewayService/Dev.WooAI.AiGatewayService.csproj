@@ -4,7 +4,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <RootNamespace>Dev.WooAI.AiGatewayService</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-preview.251114.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.2" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Dev.WooAI.Core.AiGateway\Dev.WooAI.Core.AiGateway.csproj" />
