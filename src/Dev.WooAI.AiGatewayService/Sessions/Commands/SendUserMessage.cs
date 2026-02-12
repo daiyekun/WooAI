@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Dev.WooAI.AgentPlugin;
 using Dev.WooAI.AiGatewayService.Agents;
+using Dev.WooAI.AiGatewayService.Plugins;
 using Dev.WooAI.Core.AiGateway.Aggregates.Sessions;
 using Dev.WooAI.Services.Common.Attributes;
 using Dev.WooAI.SharedKernel.Messaging;
 using Dev.WooAI.SharedKernel.Repository;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 namespace Dev.WooAI.AiGatewayService.Sessions.Commands;
@@ -51,7 +53,10 @@ namespace Dev.WooAI.AiGatewayService.Sessions.Commands;
 [AuthorizeRequirement("AiGateway.SendUserMessage")]
 public record SendUserMessageCommand(Guid SessionId, string Content) : ICommand<IAsyncEnumerable<string>>;
 
-public class SendUserMessageCommandHandler(IRepository<Session> repo, ChatAgentFactory chatAgent)
+public class SendUserMessageCommandHandler(
+    IRepository<Session> repo, 
+    ChatAgentFactory chatAgent,
+    AgentPluginLoader pluginLoader)
     : ICommandHandler<SendUserMessageCommand, IAsyncEnumerable<string>>
 {
     public async Task<IAsyncEnumerable<string>> Handle(SendUserMessageCommand request, CancellationToken cancellationToken)
@@ -74,12 +79,34 @@ public class SendUserMessageCommandHandler(IRepository<Session> repo, ChatAgentF
     }
 
     private async IAsyncEnumerable<string> GetStreamAsync(
-        ChatClientAgent agent, AgentSession agentSession, string content, [EnumeratorCancellation] CancellationToken cancellationToken)
+        ChatClientAgent agent, AgentSession agentSession, string inputcontent, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
+        var tools = pluginLoader.GetAITools(nameof(TimePlugin));
+
         // 调用Agent流式读取响应
-        await foreach (var update in agent.RunStreamingAsync(content, agentSession, cancellationToken: cancellationToken))
+        await foreach (var update in agent.RunStreamingAsync(inputcontent, agentSession,
+            new ChatClientAgentRunOptions { 
+                ChatOptions=new ChatOptions
+                {
+                    Tools = tools
+                }
+               }, cancellationToken: cancellationToken))
         {
-            yield return update.Text;
+            foreach (var content in update.Contents)
+            {
+                switch (content)
+                {
+                    case TextContent callContent:
+                        yield return callContent.Text;
+                        break;
+                    case FunctionCallContent callContent:
+                        yield return $"\n\n```\n正在执行工具：{callContent.Name} \n请求参数：{JsonSerializer.Serialize(callContent.Arguments)}";
+                        break;
+                    case FunctionResultContent callContent:
+                        yield return $"\n\n执行结果：{JsonSerializer.Serialize(callContent.Result)}\n```\n\n";
+                        break;
+                }
+            }
         }
     }
 }

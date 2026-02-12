@@ -1,4 +1,5 @@
-﻿using Dev.WooAI.AiGatewayService.Agents;
+﻿using Dev.WooAI.AgentPlugin;
+using Dev.WooAI.AiGatewayService.Agents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
@@ -19,6 +20,11 @@ public static class DependencyInjection
         builder.Services.AddHttpClient("OpenAI", client =>
         {
             client.Timeout = TimeSpan.FromSeconds(30);
+        });
+
+        builder.Services.AddAgentPlugin(registrar =>
+        {
+            registrar.RegisterPluginFromAssembly(Assembly.GetExecutingAssembly());
         });
     }
 }

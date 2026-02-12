@@ -124,7 +124,10 @@ public class ChatAgentFactory(
                     Transport = new HttpClientPipelineTransport(httpClient)
                 })
             .GetChatClient(result.Model.Name)
-            .AsAIAgent(new ChatClientAgentOptions
+            .AsIChatClient()
+            .AsBuilder()
+            .UseOpenTelemetry(sourceName: nameof(AiGatewayService), configure: client => client.EnableSensitiveData = true)
+            .BuildAIAgent(new ChatClientAgentOptions
             {
                 Name = result.Template.Name,
                 ChatOptions = new ChatOptions
@@ -141,17 +144,6 @@ public class ChatAgentFactory(
                     )
 
             });
-        //.CreateAIAgent(new ChatClientAgentOptions
-        //{
-        //    Name = result.Template.Name,
-        //    Instructions = result.Template.SystemPrompt,
-        //    ChatOptions = new ChatOptions
-        //    {
-        //        Temperature = result.Template.Temperature ?? result.Model.Temperature
-        //    },
-        //    ChatMessageStoreFactory = context => new SessionChatMessageStore(serviceProvider, context.SerializedState)
-        //});
-
         return agent;
     }
 }
