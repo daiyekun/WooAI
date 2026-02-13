@@ -6,10 +6,10 @@ namespace Dev.WooAI.AgentPlugin;
 public class AgentPluginLoader
 {
     // 缓存插件实例：Key=插件名, Value=插件实例
-    private readonly Dictionary<string, IAgentPlugin> _plugins = new();
+    private readonly Dictionary<string, IAgentPlugin> _plugins = [];
     
     // 缓存工具定义：Key=插件名, Value=AITool数组
-    private readonly Dictionary<string, AITool[]> _aiTools = new();
+    private readonly Dictionary<string, AITool[]> _aiTools = [];
     
     // 构造函数注入所有的注册器
     public AgentPluginLoader(IEnumerable<IAgentPluginRegistrar> registrars)
@@ -60,7 +60,7 @@ public class AgentPluginLoader
                 aiTools.AddRange(tools);
             }
         }
-        return aiTools.ToArray();
+        return [.. aiTools];
     }
     
     public IAgentPlugin? GetPlugin(string name)
@@ -71,6 +71,6 @@ public class AgentPluginLoader
     
     public IAgentPlugin[] GetAllPlugin()
     {
-        return _plugins.Values.ToArray();
+        return [.. _plugins.Values];
     }
 }

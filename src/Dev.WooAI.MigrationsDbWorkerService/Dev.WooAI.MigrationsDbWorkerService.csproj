@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Dev.WooAI.MigrationsDbWorkerService-df6ae330-da0d-4aac-9704-3fd1d9f34369</UserSecretsId>
+	  <RootNamespace>Dev.WooAI.MigrationsDbWorkerService</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

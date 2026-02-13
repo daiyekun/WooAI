@@ -1,12 +1,16 @@
-﻿using Dev.WooAI.Services.Common.Contracts;
+﻿using Dev.WooAI.Core.AiGateway.Aggregates.ConversationTemplate;
+using Dev.WooAI.Core.AiGateway.Aggregates.LanguageModel;
+using Dev.WooAI.Services.Common.Contracts;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
 using System;
 using System.ClientModel;
 using System.ClientModel.Primitives;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -16,134 +20,120 @@ using System.Xml.Linq;
 
 namespace Dev.WooAI.AiGatewayService.Agents;
 
-public class ChatAgentFactory(
-    IDataQueryService data, 
-    IServiceProvider serviceProvider,
-    IHttpClientFactory httpClientFactory)
+public class ChatAgentFactory(IServiceProvider serviceProvider)
 {
-    public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId)
+
+    private async Task<(LanguageModel, ConversationTemplate)> GetModelAndTemplateAsync(
+       Expression<Func<ConversationTemplate, bool>> predicate)
     {
-        var queryable =
-            from template in data.ConversationTemplates
-            join model in data.LanguageModels on template.ModelId equals model.Id
-            where template.Id == templateId
-            select new
-            {
-                Model = new
-                {
-                    model.BaseUrl,
-                    model.ApiKey,
-                    model.Name,
-                    model.Parameters.Temperature
-                },
-                Template = new
-                {
-                    template.Name,
-                    template.SystemPrompt,
-                    template.Specification.Temperature
-                }
-            };
+        using var scope = serviceProvider.CreateScope();
+        var data = scope.ServiceProvider.GetRequiredService<IDataQueryService>();
+        var query =
+            from template in data.ConversationTemplates.Where(predicate)
+             join model in data.LanguageModels on template.ModelId equals model.Id
+            select new { model, template };
 
-        var result = await data.FirstOrDefaultAsync(queryable);
+        var result = await data.FirstOrDefaultAsync(query);
         if (result == null) throw new Exception("未找对话模板或模型");
-        
-        var httpClient = httpClientFactory.CreateClient("OpenAI");
-
-        var agent = new OpenAIClient(
-                new ApiKeyCredential(result.Model.ApiKey),
-                new OpenAIClientOptions
-                {
-                    Endpoint = new Uri(result.Model.BaseUrl),
-                    // 接管 OpenAI 的底层传输
-                    Transport = new HttpClientPipelineTransport(httpClient)
-                })
-            .GetChatClient(result.Model.Name)
-            .AsAIAgent(new ChatClientAgentOptions {
-                Name = result.Template.Name,
-                ChatOptions=new ChatOptions
-                {
-                    Temperature = result.Template.Temperature ?? result.Model.Temperature
-                },
-                ChatHistoryProviderFactory = (ctx, ct) =>new ValueTask<ChatHistoryProvider>(
-                    new WooPgChatHistoryProvider(
-                        serviceProvider,
-                        ctx.SerializedState,
-                        ctx.JsonSerializerOptions
-                        )
-                    )
-              
-            });
-            //.CreateAIAgent(new ChatClientAgentOptions
-            //{
-            //    Name = result.Template.Name,
-            //    Instructions = result.Template.SystemPrompt,
-            //    ChatOptions = new ChatOptions
-            //    {
-            //        Temperature = result.Template.Temperature ?? result.Model.Temperature
-            //    },
-            //    ChatMessageStoreFactory = context => new SessionChatMessageStore(serviceProvider, context.SerializedState)
-            //});
-
-        return agent;
+        return (result.model, result.template);
     }
-
-    public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId,Guid sessionId)
+    public ChatClientAgent CreateAgentAsync(LanguageModel model, ConversationTemplate template, Guid? sessionId=null)
     {
-        var queryable =
-            from template in data.ConversationTemplates
-            join model in data.LanguageModels on template.ModelId equals model.Id
-            where template.Id == templateId
-            select new
-            {
-                Model = new
-                {
-                    model.BaseUrl,
-                    model.ApiKey,
-                    model.Name,
-                    model.Parameters.Temperature
-                },
-                Template = new
-                {
-                    template.Name,
-                    template.SystemPrompt,
-                    template.Specification.Temperature
-                }
-            };
-
-        var result = await data.FirstOrDefaultAsync(queryable);
-        if (result == null) throw new Exception("未找对话模板或模型");
-
+        using var scope = serviceProvider.CreateScope();
+        var httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         var httpClient = httpClientFactory.CreateClient("OpenAI");
-        var json = JsonSerializer.SerializeToElement(sessionId);
-        var agent = new OpenAIClient(
-                new ApiKeyCredential(result.Model.ApiKey),
+
+        var chatClientBuilder = new OpenAIClient(
+                new ApiKeyCredential(model.ApiKey ?? string.Empty),
                 new OpenAIClientOptions
                 {
-                    Endpoint = new Uri(result.Model.BaseUrl),
-                    // 接管 OpenAI 的底层传输
+                    Endpoint = new Uri(model.BaseUrl),
                     Transport = new HttpClientPipelineTransport(httpClient)
                 })
-            .GetChatClient(result.Model.Name)
+            .GetChatClient(model.Name)
             .AsIChatClient()
             .AsBuilder()
-            .UseOpenTelemetry(sourceName: nameof(AiGatewayService), configure: client => client.EnableSensitiveData = true)
-            .BuildAIAgent(new ChatClientAgentOptions
-            {
-                Name = result.Template.Name,
-                ChatOptions = new ChatOptions
-                {
-                    Temperature = result.Template.Temperature ?? result.Model.Temperature
-                },
-                ChatHistoryProviderFactory = (ctx, ct) => new ValueTask<ChatHistoryProvider>(
+            .UseOpenTelemetry(sourceName: nameof(AiGatewayService), configure: cfg => cfg.EnableSensitiveData = true);
+
+        var chatOptions = new ChatOptions
+        {
+            Temperature = template.Specification.Temperature ?? model.Parameters.Temperature,
+            Instructions = template.SystemPrompt
+        };
+        bool isSession = false;
+        JsonElement json = new() ;
+        if (sessionId.HasValue)
+        {
+            json = JsonSerializer.SerializeToElement(sessionId.Value);
+            isSession = true;
+        }
+        
+        var agent = chatClientBuilder.BuildAIAgent(new ChatClientAgentOptions
+        {
+            Name = template.Name,
+            ChatOptions = chatOptions,
+            ChatHistoryProviderFactory = (ctx, ct) => new ValueTask<ChatHistoryProvider>(
                     new WooPgChatHistoryProvider(
                         serviceProvider,
-                        json,
-                        //ctx.SerializedState,
+                        (isSession ? json : ctx.SerializedState),
                         ctx.JsonSerializerOptions
                         )
                     )
+        });
 
-            });
         return agent;
+
     }
+
+    public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId, Guid? sessionId=null)
+    {
+        var (model, template) = await GetModelAndTemplateAsync(t => t.Id == templateId);
+        return CreateAgentAsync(model, template,sessionId);
+    }
+
+    public async Task<ChatClientAgent> CreateAgentAsync(string templateName,
+        Action<ConversationTemplate>? configureTemplate = null, Guid? sessionId = null)
+    {
+        var (model, template) = await GetModelAndTemplateAsync(t => t.Name == templateName);
+        configureTemplate?.Invoke(template);
+        return CreateAgentAsync(model, template, sessionId);
+    }
+
+    //public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId,Guid sessionId)
+    //{
+    //    var (model, template) = await GetModelAndTemplateAsync(t => t.Id == templateId);
+
+    //    var httpClient = httpClientFactory.CreateClient("OpenAI");
+    //    var json = JsonSerializer.SerializeToElement(sessionId);
+    //    var agent = new OpenAIClient(
+    //            new ApiKeyCredential(result.Model.ApiKey),
+    //            new OpenAIClientOptions
+    //            {
+    //                Endpoint = new Uri(result.Model.BaseUrl),
+    //                // 接管 OpenAI 的底层传输
+    //                Transport = new HttpClientPipelineTransport(httpClient)
+    //            })
+    //        .GetChatClient(result.Model.Name)
+    //        .AsIChatClient()
+    //        .AsBuilder()
+    //        .UseOpenTelemetry(sourceName: nameof(AiGatewayService), configure: client => client.EnableSensitiveData = true)
+    //        .BuildAIAgent(new ChatClientAgentOptions
+    //        {
+    //            Name = result.Template.Name,
+    //            ChatOptions = new ChatOptions
+    //            {
+    //                Temperature = result.Template.Temperature ?? result.Model.Temperature
+    //            },
+    //            ChatHistoryProviderFactory = (ctx, ct) => new ValueTask<ChatHistoryProvider>(
+    //                new WooPgChatHistoryProvider(
+    //                    serviceProvider,
+    //                    json,
+    //                    //ctx.SerializedState,
+    //                    ctx.JsonSerializerOptions
+    //                    )
+    //                )
+
+    //        });
+    //    return agent;
+    //}
 }

@@ -1,4 +1,5 @@
 using Dev.WooAI.EntityFreworkCore;
+using Dev.WooAI.MigrationsDbWorkerService.SeedData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -23,7 +24,7 @@ public class Worker(
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             await RunMigrationAsync(dbContext, cancellationToken);
-            await SeedDataAsync(roleManager, userManager, cancellationToken);
+            await SeedDataAsync(dbContext,roleManager, userManager, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -44,7 +45,10 @@ public class Worker(
     }
 
     private static async Task SeedDataAsync(
-        RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, CancellationToken cancellationToken)
+        WooAiDbContext dbContext,
+        RoleManager<IdentityRole> roleManager,
+        UserManager<IdentityUser> userManager, 
+        CancellationToken cancellationToken)
     {
         // 创建默认角色
         var roles = new[] { "Admin", "User" };
@@ -79,5 +83,19 @@ public class Worker(
                 Console.WriteLine("创建管理员失败：" + string.Join(",", result.Errors.Select(e => e.Description)));
             }
         }
+
+        // 创建默认模型
+        if (!await dbContext.LanguageModels.AnyAsync(cancellationToken: cancellationToken))
+        {
+            await dbContext.LanguageModels.AddRangeAsync(AiGatewayData.LanguageModels(), cancellationToken);
+        }
+
+        // 创建默认对话模板
+        if (!await dbContext.ConversationTemplates.AnyAsync(cancellationToken: cancellationToken))
+        {
+            await dbContext.ConversationTemplates.AddRangeAsync(AiGatewayData.ConversationTemplates(), cancellationToken);
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

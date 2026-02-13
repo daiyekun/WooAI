@@ -1,4 +1,5 @@
-﻿using Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
+﻿using Dev.WooAI.AiGatewayService.Agents;
+using Dev.WooAI.AiGatewayService.Commands.ConversationTemplates.Commands;
 using Dev.WooAI.AiGatewayService.Commands.LanguageModels.Commands;
 using Dev.WooAI.AiGatewayService.Queries.ConversationTemplates;
 using Dev.WooAI.AiGatewayService.Queries.LanguageModels;
@@ -85,6 +86,7 @@ public class AiGatewayController : ApiControllerBase
         return ReturnResult(result);
     }
 
+    [Obsolete("此方法不需要了，因为10.0已经有流写法")]
     [HttpPost("session/SendUserMessages")]
     public async Task SendUserMessages(SendUserMessageCommand command)
     {
@@ -107,5 +109,12 @@ public class AiGatewayController : ApiControllerBase
             await Response.WriteAsync($"data: {json}\n\n");
             await Response.Body.FlushAsync();
         }
+    }
+
+    [HttpPost("/chat")]
+    public IResult Chat(ChatStreamRequest request)
+    {
+        var stream = Sender.CreateStream(request);
+        return Results.ServerSentEvents(stream);
     }
 }
