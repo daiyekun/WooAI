@@ -63,8 +63,8 @@ public class SendUserMessageCommandHandler(
     {
         var session = await repo.GetByIdAsync(request.SessionId, cancellationToken);
         if (session == null) throw new Exception("未找到会话");
-
-        var agent = await chatAgent.CreateAgentAsync(session.TemplateId, request.SessionId);
+        var sessionState = new SessionSoreState(request.SessionId);
+        var agent = await chatAgent.CreateAgentAsync(session.TemplateId, sessionState);
 
         //todo:不能传入当前sessionId 去创建
         var curragentSession=await agent.CreateSessionAsync();

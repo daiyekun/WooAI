@@ -38,7 +38,7 @@ public class WooPgChatHistoryProvider : ChatHistoryProvider
         return JsonSerializer.SerializeToElement(_sessionSoreState);
     }
 
-    public override async ValueTask<IEnumerable<ChatMessage>> InvokingAsync(InvokingContext context, CancellationToken cancellationToken = default)
+    protected override async ValueTask<IEnumerable<ChatMessage>> InvokingCoreAsync(InvokingContext context, CancellationToken cancellationToken = default)
     {
         if (_sessionSoreState == null) return [];
         var mediator = _serviceProvider.GetRequiredService<IMediator>();
@@ -47,7 +47,7 @@ public class WooPgChatHistoryProvider : ChatHistoryProvider
         return result.Value!;
     }
 
-    public override async ValueTask InvokedAsync(InvokedContext context, CancellationToken cancellationToken = default)
+    protected override async ValueTask InvokedCoreAsync(InvokedContext context, CancellationToken cancellationToken = default)
     {
         if (context.InvokeException is not null)
         {
@@ -64,7 +64,7 @@ public class WooPgChatHistoryProvider : ChatHistoryProvider
         var session = await repo.GetByIdAsync(_sessionSoreState.SessionId, cancellationToken);
         if (session == null) return;
 
-        var allNewMessages = context.RequestMessages.Concat(context.AIContextProviderMessages ?? [])
+        var allNewMessages = context.RequestMessages//.Concat(context.Agen .AIContextProviderMessages ?? [])
                            .Concat(context.ResponseMessages ?? []);
 
 
@@ -79,6 +79,7 @@ public class WooPgChatHistoryProvider : ChatHistoryProvider
                 "user" => MessageType.User,
                 "assistant" => MessageType.Assistant,
                 "system" => MessageType.System,
+                "tool"=>MessageType.Tool,
                 _ => MessageType.Assistant
             };
 

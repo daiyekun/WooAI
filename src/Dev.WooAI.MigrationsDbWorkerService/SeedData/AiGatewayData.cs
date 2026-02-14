@@ -26,12 +26,11 @@ public static class AiGatewayData
         {
             Id = Guids[0]
         };
-        
+
         // 能力强的常规模型
         var item2 = new LanguageModel(
-            "deepseek-v3.2",
-            "通义千问",
-            //"qwen3-max-2025-09-23",
+            "qwen-flash-character",
+            "通义千问1",
             "https://dashscope.aliyuncs.com/compatible-mode/v1",
             "sk-6cbc28318ee2474fa998f1cef129e138",
             new ModelParameters

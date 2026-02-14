@@ -1,5 +1,6 @@
 ﻿using Dev.WooAI.AgentPlugin;
 using Dev.WooAI.AiGatewayService.Agents;
+using Dev.WooAI.AiGatewayService.Workflows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
@@ -28,5 +29,7 @@ public static class DependencyInjection
         });
 
         builder.Services.AddSingleton<IntentRoutingAgentBuilder>();
+
+        builder.AddIntentWorkflow();
     }
 }

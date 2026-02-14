@@ -37,7 +37,7 @@ public class ChatAgentFactory(IServiceProvider serviceProvider)
         if (result == null) throw new Exception("未找对话模板或模型");
         return (result.model, result.template);
     }
-    public ChatClientAgent CreateAgentAsync(LanguageModel model, ConversationTemplate template, Guid? sessionId=null)
+    public ChatClientAgent CreateAgentAsync(LanguageModel model, ConversationTemplate template, SessionSoreState? sessionSoreState)
     {
         using var scope = serviceProvider.CreateScope();
         var httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
@@ -62,9 +62,9 @@ public class ChatAgentFactory(IServiceProvider serviceProvider)
         };
         bool isSession = false;
         JsonElement json = new() ;
-        if (sessionId.HasValue)
+        if (sessionSoreState is not null)
         {
-            json = JsonSerializer.SerializeToElement(sessionId.Value);
+            json = JsonSerializer.SerializeToElement(sessionSoreState);
             isSession = true;
         }
         
@@ -85,18 +85,18 @@ public class ChatAgentFactory(IServiceProvider serviceProvider)
 
     }
 
-    public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId, Guid? sessionId=null)
+    public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId, SessionSoreState? sessionSoreState=null)
     {
         var (model, template) = await GetModelAndTemplateAsync(t => t.Id == templateId);
-        return CreateAgentAsync(model, template,sessionId);
+        return CreateAgentAsync(model, template, sessionSoreState);
     }
 
     public async Task<ChatClientAgent> CreateAgentAsync(string templateName,
-        Action<ConversationTemplate>? configureTemplate = null, Guid? sessionId = null)
+        Action<ConversationTemplate>? configureTemplate = null, SessionSoreState? sessionSoreState = null)
     {
         var (model, template) = await GetModelAndTemplateAsync(t => t.Name == templateName);
         configureTemplate?.Invoke(template);
-        return CreateAgentAsync(model, template, sessionId);
+        return CreateAgentAsync(model, template, sessionSoreState);
     }
 
     //public async Task<ChatClientAgent> CreateAgentAsync(Guid templateId,Guid sessionId)
