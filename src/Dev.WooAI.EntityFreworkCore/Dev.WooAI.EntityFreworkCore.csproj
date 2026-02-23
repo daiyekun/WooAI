@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dev.WooAI.Core.AiGateway\Dev.WooAI.Core.AiGateway.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.Core.Rag\Dev.WooAI.Core.Rag.csproj" />
     <ProjectReference Include="..\Dev.WooAI.Services.Common\Dev.WooAI.Services.Common.csproj" />
     <ProjectReference Include="..\Dev.WooAI.SharedKernel\Dev.WooAI.SharedKernel.csproj" />
   </ItemGroup>

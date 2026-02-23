@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
 using Dev.WooAI.AiGatewayService;
+using Dev.WooAI.RagService;
 
 namespace Dev.WooAI.HttpApi;
 
@@ -27,6 +28,7 @@ public static class DependencyInjection
             });
 
             builder.AddAiGatewayService();
+            builder.AddRagService();
         }
 
         public void AddWebService()

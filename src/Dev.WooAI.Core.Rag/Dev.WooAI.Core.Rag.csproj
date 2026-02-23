@@ -4,12 +4,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>Dev.WooAI.Services.Common</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dev.WooAI.Core.AiGateway\Dev.WooAI.Core.AiGateway.csproj" />
-    <ProjectReference Include="..\Dev.WooAI.Core.Rag\Dev.WooAI.Core.Rag.csproj" />
     <ProjectReference Include="..\Dev.WooAI.SharedKernel\Dev.WooAI.SharedKernel.csproj" />
   </ItemGroup>
 

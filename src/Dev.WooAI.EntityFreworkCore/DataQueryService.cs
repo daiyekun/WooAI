@@ -1,6 +1,8 @@
 ﻿using Dev.WooAI.Core.AiGateway.Aggregates.ConversationTemplate;
 using Dev.WooAI.Core.AiGateway.Aggregates.LanguageModel;
 using Dev.WooAI.Core.AiGateway.Aggregates.Sessions;
+using Dev.WooAI.Core.Rag.Aggregates.EmbeddingModel;
+using Dev.WooAI.Core.Rag.Aggregates.KnowledgeBase;
 using Dev.WooAI.EntityFreworkCore;
 using Dev.WooAI.Services.Common.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,13 @@ public class DataQueryService(WooAiDbContext dbContext) : IDataQueryService
     public IQueryable<LanguageModel> LanguageModels => dbContext.LanguageModels.AsNoTracking();
     public IQueryable<Session> Sessions => dbContext.Sessions.AsNoTracking();
     public IQueryable<Message> Messages => dbContext.Messages.AsNoTracking();
-    
+
+    public IQueryable<EmbeddingModel> EmbeddingModels => dbContext.EmbeddingModels.AsNoTracking();
+    public IQueryable<KnowledgeBase> KnowledgeBases => dbContext.KnowledgeBases.AsNoTracking();
+    public IQueryable<Document> Documents => dbContext.Documents.AsNoTracking();
+    public IQueryable<DocumentChunk> DocumentChunks => dbContext.DocumentChunks.AsNoTracking();
+
+
     public async Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> queryable) where T : class
     {
         return await queryable.AsNoTracking().FirstOrDefaultAsync();
