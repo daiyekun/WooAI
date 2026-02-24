@@ -8,6 +8,7 @@
     <Project Path="src/Dev.WooAI.AppHost/Dev.WooAI.AppHost.csproj" Id="9d810d19-0746-4562-b87e-9226a53a0e70" />
     <Project Path="src/Dev.wooAI.HttpApi/Dev.WooAI.HttpApi.csproj" />
     <Project Path="src/Dev.WooAI.MigrationsDbWorkerService/Dev.WooAI.MigrationsDbWorkerService.csproj" Id="c5e7c3e6-857e-49e1-9eb2-5eca4fe4a472" />
+    <Project Path="src/Dev.WooAI.RagWorker/Dev.WooAI.RagWorker.csproj" />
     <Project Path="src/Dev.WooAI.ServiceDefaults/Dev.WooAI.ServiceDefaults.csproj" Id="e0fcccb4-ecea-442f-bb53-9b14b2423786" />
   </Folder>
   <Folder Name="/Src/Infrastructure/">

@@ -14,11 +14,13 @@
     <PackageReference Include="Aspire.Hosting.AppHost" Version="13.1.0" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.1.0" />
     <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="13.1.1" />
+	<PackageReference Include="Aspire.Hosting.Qdrant" Version="13.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Dev.wooAI.HttpApi\Dev.WooAI.HttpApi.csproj" />
     <ProjectReference Include="..\Dev.WooAI.MigrationsDbWorkerService\Dev.WooAI.MigrationsDbWorkerService.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.RagWorker\Dev.WooAI.RagWorker.csproj" />
   </ItemGroup>
 
 </Project>

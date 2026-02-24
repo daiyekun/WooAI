@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Dev.WooAI.RagWorker-1f7c8f81-17bc-4af4-9297-73c246f93b14</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Qdrant.Client" Version="13.1.1" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0-preview.1.26104.118" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.72.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.72.0-preview" />
+    <PackageReference Include="PdfPig" Version="0.1.13" />
+    <PackageReference Include="SharpToken" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dev.WooAI.Core.Rag\Dev.WooAI.Core.Rag.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.EntityFreworkCore\Dev.WooAI.EntityFreworkCore.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.EventBus\Dev.WooAI.EventBus.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.Infrastructure\Dev.WooAI.Infrastructure.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.ServiceDefaults\Dev.WooAI.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Dev.WooAI.Services.Common\Dev.WooAI.Services.Common.csproj" />
+  </ItemGroup>
+</Project>
